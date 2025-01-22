@@ -24,8 +24,6 @@ requests-oauthlib==2.0.0
 rsa==4.9
 streamlit-card==1.0.2
 streamlit-tags==1.2.8
-streamlit-card==1.0.2
-streamlit-tags==1.2.8
 undetected-chromedriver==3.5.5
 uritemplate==4.1.1
 websockets==14.2
