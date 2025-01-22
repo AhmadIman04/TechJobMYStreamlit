@@ -1,0 +1,4 @@
+[theme]
+primaryColor = "#007bff"  # Primary color for your app (buttons, highlights, etc.)
+backgroundColor = "#ffffff"  # Background color of the main content (white)
+textColor = "#333333"  # Text color for the main content

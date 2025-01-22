@@ -1,0 +1,11 @@
+alljobs_df_9.csv
+chromedriver.exe
+credentials.json
+image.png
+skill_dim.csv
+skills_table3.csv
+skills.py
+Tests.ipynb
+html_scripts
+.streamlit\secrets.toml
+__pycache__
