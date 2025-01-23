@@ -118,7 +118,14 @@ def salary_distribution(FilterJob,alljobsdf,FilterState):
     )
 
     # Display the histogram in Streamlit
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(
+        fig, 
+        config={
+            'staticPlot': True,       # Disables all interactivity
+            'displayModeBar': False,  # Hides the mode bar at the top of the chart
+        }
+        ,use_container_width=True
+    )
 
 
 def page1_vis(FilterJob, FilterSkill, FilterState, merged_all_table):
@@ -187,7 +194,13 @@ def page1_vis(FilterJob, FilterSkill, FilterState, merged_all_table):
         height=600
     )
 
-    st.plotly_chart(fig)
+    st.plotly_chart(
+        fig, 
+        config={
+            'staticPlot': True,       # Disables all interactivity
+            'displayModeBar': False,  # Hides the mode bar at the top of the chart
+        }
+    )
 
 ####################################### Glassdoor Scraping ##############################################
 
