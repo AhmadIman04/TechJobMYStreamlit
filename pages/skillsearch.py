@@ -41,31 +41,41 @@ def read_sheet_to_df(sheet_id, sheet_name="Sheet1"):
     df = pd.DataFrame(data[1:], columns=data[0])  # Use the first row as headers
     return df
 
-if "hasPulledData2" not in st.session_state:
-    with st.spinner("🔄 Loading data... Please wait a moment!"):
-        # Google Sheets API authorization
-        st.session_state.hasPulledData2 = True
-        scopes = ["https://www.googleapis.com/auth/spreadsheets"]
-        #creds = Credentials.from_service_account_file("credentials.json", scopes=scopes)
-        creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scopes)
-        client = gspread.authorize(creds)
+if "hasPulledData" not in st.session_state:
+    success = False
+    while not success:
+        try:
+            with st.spinner("🔄 Loading data... Please wait a moment!"):
+                # Google Sheets API authorization
+                scopes = ["https://www.googleapis.com/auth/spreadsheets"]
+                creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scopes)
+                client = gspread.authorize(creds)
 
-        # Sheet IDs
-        alljobs_df_9_id = "1UPcLy1xpT6dcxrIUDFwpHt-SmAcb5XeUlw74MAG2pns"
-        skill_dim_id = "1XsmTeWNN7e5ebyd6rOUhR1LCxjEbKCcpbOqFmsFHSTM"
-        skills_table3_id = "1st_vm0tSGVGFMOp7893h6cFYFq8DgbYtPoC5i4S3fVk"
+                # Sheet IDs
+                alljobs_df_9_id = "1UPcLy1xpT6dcxrIUDFwpHt-SmAcb5XeUlw74MAG2pns"
+                skill_dim_id = "1XsmTeWNN7e5ebyd6rOUhR1LCxjEbKCcpbOqFmsFHSTM"
+                skills_table3_id = "1st_vm0tSGVGFMOp7893h6cFYFq8DgbYtPoC5i4S3fVk"
 
-        # Read data from sheets into DataFrames
-        st.session_state.alljobsdf = read_sheet_to_df(alljobs_df_9_id)
-        st.session_state.skill_dim = read_sheet_to_df(skill_dim_id)
-        st.session_state.job_skills = read_sheet_to_df(skills_table3_id)
+                # Read data from sheets into DataFrames
+                st.session_state.alljobsdf = read_sheet_to_df(alljobs_df_9_id)
+                st.session_state.skill_dim = read_sheet_to_df(skill_dim_id)
+                st.session_state.job_skills = read_sheet_to_df(skills_table3_id)
 
-        # Convert empty strings to NaN
-        st.session_state.alljobsdf = st.session_state.alljobsdf.replace('', pd.NA)
-        st.session_state.alljobsdf.drop(columns=["Unnamed: 0"],inplace=True)
-        st.session_state.skill_dim.drop(columns=["Unnamed: 0"],inplace=True)
-        st.session_state.job_skills.drop(columns=["Unnamed: 0"],inplace=True)
-        st.session_state.skill_dim.rename(columns={"Skill":"Skills"},inplace=True)
+                # Convert empty strings to NaN
+                st.session_state.alljobsdf = st.session_state.alljobsdf.replace('', pd.NA)
+                st.session_state.alljobsdf.drop(columns=["Unnamed: 0"], inplace=True)
+                st.session_state.skill_dim.drop(columns=["Unnamed: 0"], inplace=True)
+                st.session_state.job_skills.drop(columns=["Unnamed: 0"], inplace=True)
+                st.session_state.skill_dim.rename(columns={"Skill": "Skills"}, inplace=True)
+
+                # Mark data as successfully pulled
+                st.session_state.hasPulledData = True
+                success = True
+                
+
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
+            st.warning("Retrying...")
 
 
 
