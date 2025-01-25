@@ -14,22 +14,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-col1,col2 = st.columns(2)
 
-with col1:
-    st.session_state.Job=st.selectbox(
-        "Choose Jobs",
-        ['Full Stack Developer', 'Business Analyst', 'Data Scientist',
-       'Backend Developer', 'Data Engineer', 'Cloud Engineer',
-       'Data Analyst', 'Frontend Developer']
-    )
-
-with col2:
-    st.session_state.skill_type=st.selectbox(
-        "Choose Skill Type",
-        ['All Skills', 'Other tools', 'Frameworks and Libraries',
-        'Database', 'Cloud Service Providers','Programming Language']
-    )
 
 #alljobsdf= pd.read_csv("alljobs_df_9.csv")
 #skill_dim = pd.read_csv("skill_dim.csv")
@@ -78,7 +63,22 @@ if "hasPulledData" not in st.session_state:
         st.session_state.skill_dim.rename(columns={"Skill":"Skills"},inplace=True)
 
 
+col1,col2 = st.columns(2)
 
+with col1:
+    st.session_state.Job=st.selectbox(
+        "Choose Jobs",
+        ['Full Stack Developer', 'Business Analyst', 'Data Scientist',
+       'Backend Developer', 'Data Engineer', 'Cloud Engineer',
+       'Data Analyst', 'Frontend Developer']
+    )
+
+with col2:
+    st.session_state.skill_type=st.selectbox(
+        "Choose Skill Type",
+        ['All Skills', 'Other tools', 'Frameworks and Libraries',
+        'Database', 'Cloud Service Providers','Programming Language']
+    )
 
 #alljobsdf.drop(columns=["Unnamed: 0"],inplace=True)
 #skill_dim.drop(columns=["Unnamed: 0"],inplace=True)

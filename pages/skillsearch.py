@@ -41,10 +41,10 @@ def read_sheet_to_df(sheet_id, sheet_name="Sheet1"):
     df = pd.DataFrame(data[1:], columns=data[0])  # Use the first row as headers
     return df
 
-if "hasPulledData" not in st.session_state:
+if "hasPulledData2" not in st.session_state:
     with st.spinner("🔄 Loading data... Please wait a moment!"):
         # Google Sheets API authorization
-        st.session_state.hasPulledData = True
+        st.session_state.hasPulledData2 = True
         scopes = ["https://www.googleapis.com/auth/spreadsheets"]
         #creds = Credentials.from_service_account_file("credentials.json", scopes=scopes)
         creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scopes)

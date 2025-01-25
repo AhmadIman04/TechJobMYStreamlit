@@ -7,5 +7,5 @@ skills_table3.csv
 skills.py
 Tests.ipynb
 html_scripts
-.streamlit\secrets.toml
 __pycache__
+.streamlit/secrets.toml
