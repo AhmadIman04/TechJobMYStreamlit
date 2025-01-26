@@ -52,6 +52,7 @@ def get_average_salary(FilterJob, alljobsdf,FilterState):
         df=df[df["State"]==FilterState]
     df = df[df["Short Job Title"] == FilterJob]
     df = df[df["Job Type"] != "Internship"]
+    df = df[~df["Job Title"].str.contains("trainee", case=False, na=False)]
     df = df.dropna(subset=["Actual Salary"])  # Drop rows where 'Salary' is NaN, keeping other columns intact
     df["Actual Salary"] = pd.to_numeric(df["Actual Salary"], errors='coerce')
     jobs_analyzed = len(df)
