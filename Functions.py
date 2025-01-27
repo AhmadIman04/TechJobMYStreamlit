@@ -12,6 +12,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
+import re
 
 import gspread
 from google.oauth2.service_account import Credentials
@@ -202,6 +203,82 @@ def page1_vis(FilterJob, FilterSkill, FilterState, merged_all_table):
             'displayModeBar': False,  # Hides the mode bar at the top of the chart
         }
     )
+def print_arr(arr):
+    arr_str = ""
+    for i in arr:
+        arr_str = f"{arr_str}{i},"  # Append the element followed by a comma
+    return arr_str.rstrip(',')  # Remove the trailing comma
+
+def company_search_vis(df,company):
+    if(company==""):
+        return
+    word =company
+    word=word.lower()
+    df_A= df[(df["Company Name"].str.contains(f"{word}", case=False, na=False)) | (df["Company Name"].str.lower()==word)]
+    companies = df["Company Name"]
+    companies_withspace = []
+    for i in companies :
+        new_word = f" {i}"
+        new_word = re.sub(r'[^a-zA-Z0-9\s]', ' ', new_word)
+        companies_withspace.append(new_word)
+    df["Company Name"]=companies_withspace
+    word = f" {word}"
+    word=word.lower()
+    df_B = df[(df["Company Name"].str.contains(f"{word} ", case=False, na=False)) | (df["Company Name"].str.lower()==word)]
+    if(len(df_B)==0):
+        with st.container(border=True):
+            st.warning("Company is not available in the database")
+            return
+    df_B.dropna(subset=["Skills"],inplace=True)
+    list_company = print_arr(pd.Series(df_B['Company Name'].str.lower().unique()).str.title())
+
+    # Create HTML string where only the company names are bold
+    html_str = f"""
+    <style>
+        .bold {{
+            font-weight: bold;
+        }}
+    </style>
+    <p>Showing results for <span class="bold">{list_company}</span></p>
+    """
+    st.markdown(html_str, unsafe_allow_html=True)
+    with st.container(border=True):
+        
+        # Group jobs and their skills
+        jobs = df_B["Short Job Title"].unique()
+        for i in jobs:
+            # Filter the DataFrame for the current job title
+            df_temp = df_B[df_B["Short Job Title"] == i]
+            list_of_jobs = df_temp["Skills"].unique()
+            
+            # Convert the list of skills into a comma-separated string
+            skills_str = ", ".join(list_of_jobs)
+            
+            # Display the job title
+            st.markdown(f"### 🛠️ **{i}**")
+            
+            # Display the skills in a visually appealing way
+            st.markdown(
+                f"""
+                <div style="background-color: #f9f9f9; padding: 10px; border-radius: 10px; margin-bottom: 10px; color: #333; font-size: 16px;">
+                    <strong>Skills mentioned for this role:</strong><br>
+                    <span style="color: #007BFF;">{skills_str}</span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            st.divider()  # Add a horizontal line for better separation
+    st.write(" ")
+    st.markdown('**Raw Data** (to look the data by yourself, you can download this csv file)')
+    df_B = df_B[['Job Title', 'Company Name', 'Location', 'Job Requirements']]
+    # Eliminate duplicate rows based on the selected columns
+    df_B = df_B.drop_duplicates()
+
+    st.dataframe(df_B)
+        
+        
+
 
 ####################################### Glassdoor Scraping ##############################################
 
