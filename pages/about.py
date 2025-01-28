@@ -59,7 +59,7 @@ with st.form("feedback_form"):
         
         # Authenticate with Google Sheets API
         scopes = ["https://www.googleapis.com/auth/spreadsheets"]
-        creds = Credentials.from_service_account_file("credentials.json", scopes=scopes)
+        creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scopes)
         client = gspread.authorize(creds)
         
         # Define the sheet ID and open the sheet
