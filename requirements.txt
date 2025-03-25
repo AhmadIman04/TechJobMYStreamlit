@@ -2,7 +2,6 @@ beautifulsoup4==4.13.3
 gspread==6.2.0
 pandas==2.2.3
 plotly==5.24.1
-protobuf==6.30.1
 pypdf==5.4.0
 Requests==2.32.3
 scrapfly_sdk==0.8.21
