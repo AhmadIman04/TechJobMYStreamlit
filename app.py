@@ -27,6 +27,12 @@ Company_Search = st.Page(
     icon="🏢"
 )
 
+Job_Search_Assistant=st.Page(
+    "pages/jobsearch_assistant.py",
+    title="Job Search Assistant",
+    icon="🤖"
+)
+
 About_Page =st.Page(
     "pages/about.py",
     title="About",
@@ -36,7 +42,7 @@ About_Page =st.Page(
 
 
 #--- NAVIGATION SETUP [WITHOUT SECTIONS] ---
-pg = st.navigation(pages=[Top_skills, Salary_Dashboard,Skill_Search,Company_Search,About_Page])
+pg = st.navigation(pages=[Top_skills, Salary_Dashboard,Skill_Search,Company_Search,Job_Search_Assistant,About_Page])
 
 # --- NAVIGATION SETUP [WITH SECTIONS]---
 #pg = st.navigation(
