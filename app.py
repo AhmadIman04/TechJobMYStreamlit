@@ -1,4 +1,10 @@
 import streamlit as st
+import streamlit.components.v1 as components
+
+# Inject Google Analytics tracking script
+with open("google_analytics.html", "r") as f:
+    html_code = f.read()
+    components.html(html_code, height=0)  # Load the script in Streamlit
 
 
 # --- PAGE SETUP ---
