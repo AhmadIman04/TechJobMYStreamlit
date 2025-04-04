@@ -1,42 +1,21 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-GA_JS = """
+GA_MEASUREMENT_ID = "G-BM5FK4E0W7"
+
+ga_script = f"""
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
 <script>
-(function() {
-    var gtagScript = document.createElement('script');
-    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-BM5FK4E0W7';
-    gtagScript.async = true;
-    document.head.appendChild(gtagScript);
-
-    var inlineScript = document.createElement('script');
-    inlineScript.innerHTML = `
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-BM5FK4E0W7');
-    `;
-    document.head.appendChild(inlineScript);
-
-    // Check if GA is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        const isGALoaded = window.dataLayer && typeof gtag === 'function';
-        const statusDiv = document.createElement('div');
-        statusDiv.innerHTML = isGALoaded 
-            ? '<p style="color: green;">✅ Google Analytics Connected!</p>' 
-            : '<p style="color: red;">❌ Google Analytics Not Detected</p>';
-        statusDiv.style.position = 'fixed';
-        statusDiv.style.bottom = '10px';
-        statusDiv.style.right = '10px';
-        document.body.appendChild(statusDiv);
-    });
-})();
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', '{GA_MEASUREMENT_ID}');
 </script>
 """
 
-# Inject GA and verification script
+# Inject once
 if "ga_injected" not in st.session_state:
-    st.markdown(GA_JS, unsafe_allow_html=True)
+    components.html(ga_script, height=0)
     st.session_state.ga_injected = True
 
 # --- PAGE SETUP ---

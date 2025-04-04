@@ -3,8 +3,24 @@ import pandas as pd
 from Functions import page1_vis
 import gspread
 from google.oauth2.service_account import Credentials
+import streamlit.components.v1 as components
 
+GA_MEASUREMENT_ID = "G-BM5FK4E0W7"
 
+ga_script = f"""
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_MEASUREMENT_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', '{GA_MEASUREMENT_ID}');
+</script>
+"""
+
+# Inject once
+if "ga_injected" not in st.session_state:
+    components.html(ga_script, height=0)
+    st.session_state.ga_injected = True
 
 st.markdown(
     """
