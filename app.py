@@ -17,9 +17,24 @@ GA_JS = """
         gtag('config', 'G-BM5FK4E0W7');
     `;
     document.head.appendChild(inlineScript);
+
+    // Check if GA is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        const isGALoaded = window.dataLayer && typeof gtag === 'function';
+        const statusDiv = document.createElement('div');
+        statusDiv.innerHTML = isGALoaded 
+            ? '<p style="color: green;">✅ Google Analytics Connected!</p>' 
+            : '<p style="color: red;">❌ Google Analytics Not Detected</p>';
+        statusDiv.style.position = 'fixed';
+        statusDiv.style.bottom = '10px';
+        statusDiv.style.right = '10px';
+        document.body.appendChild(statusDiv);
+    });
 })();
 </script>
 """
+
+# Inject GA and verification script
 if "ga_injected" not in st.session_state:
     st.markdown(GA_JS, unsafe_allow_html=True)
     st.session_state.ga_injected = True
