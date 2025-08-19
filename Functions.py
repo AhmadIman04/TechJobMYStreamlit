@@ -412,7 +412,7 @@ def linkedin_job_searcher(job_description,total_jobs, resume = None):
             key = st.secrets["api_keys"]["gemini_1"]
             if resume == None :
                 genai.configure(api_key=key)
-                model = genai.GenerativeModel('gemini-2.0-flash-thinking-exp-01-21')
+                model = genai.GenerativeModel('gemini-2.0-flash')
                 candidate_preferences = model.generate_content(
                 f'''
                 From the job description given what are the job preferences, experience and skills of this candidate,
@@ -428,7 +428,7 @@ def linkedin_job_searcher(job_description,total_jobs, resume = None):
                     if page_text:
                         text += page_text
                 genai.configure(api_key=key)
-                model = genai.GenerativeModel('gemini-2.0-flash-thinking-exp-01-21')
+                model = genai.GenerativeModel('gemini-2.0-flash')
                 candidate_preferences = model.generate_content(
                 f'''
                 From the job description given what are the job preferences, experience and skills of this candidate,
@@ -451,7 +451,7 @@ def linkedin_job_searcher(job_description,total_jobs, resume = None):
             #
             print(candidate_preferences.text)
             genai.configure(api_key=key)
-            model = genai.GenerativeModel('gemini-2.0-flash-thinking-exp-01-21')
+            model = genai.GenerativeModel('gemini-2.0-flash')
             response2 = model.generate_content(
             f'''
             ok now based on the job preferences (not the resume details) right here
@@ -608,7 +608,7 @@ def linkedin_job_searcher(job_description,total_jobs, resume = None):
             key1=st.secrets["api_keys"]["gemini_1"]
             key2=st.secrets["api_keys"]["gemini_2"]
             genai.configure(api_key=key)
-            model = genai.GenerativeModel('gemini-2.0-flash-thinking-exp-01-21')
+            model = genai.GenerativeModel('gemini-2.0-flash')
             # Assume df and candidate_preferences have already been defined/loaded.
             # For example:
             # df = pd.read_csv('linkedinjobs.csv')
@@ -625,7 +625,7 @@ def linkedin_job_searcher(job_description,total_jobs, resume = None):
                 else:
                     key=key2
                 genai.configure(api_key=key)
-                model = genai.GenerativeModel('gemini-2.0-flash-thinking-exp-01-21')
+                model = genai.GenerativeModel('gemini-2.0-flash')
                 #time.sleep(1.5)
                 job_desc = row.get("job_description", "")
                 
